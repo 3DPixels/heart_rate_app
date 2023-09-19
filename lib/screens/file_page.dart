@@ -46,11 +46,6 @@ class _FileScreenState extends State<FileScreen> {
     ];
     nameController.text = CacheHelper.getString(SharedKeys.name);
     getUserData();
-    // Person person =
-    //     boxPersons.getAt(int.parse(CacheHelper.getString(SharedKeys.id)));
-    // for (int i = 0; i < person.rates.length; i++) {
-    //   controllers[i].text = person.rates[i];
-    // }
   }
 
   @override
@@ -163,11 +158,8 @@ class _FileScreenState extends State<FileScreen> {
     List<Map<String, dynamic>> usersData = await DatabaseHelper.database!
         .rawQuery('SELECT * FROM "Users" WHERE id=?',
             [int.parse(CacheHelper.getString(SharedKeys.id))]);
-    print(CacheHelper.getString(SharedKeys.id));
-    print('||||| ${usersData.toSet()}');
     if (usersData.isNotEmpty) {
       user = UserModel.fromJson(jsonDecode(usersData.first['userModel']));
-
       for (int i = 0; i < user!.rates!.length; i++) {
         controllers[i].text = user!.rates![i];
       }

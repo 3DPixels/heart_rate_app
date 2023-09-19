@@ -105,7 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           element.password == passwordController!.text);
                       if (index != -1) {
                         cacheUser(
-                            usersList[index].id.toString() ?? '',
+                            usersList[index].id.toString(),
                             usersList[index].name ?? '',
                             usersList[index].email ?? '',
                             usersList[index].phone ?? '',

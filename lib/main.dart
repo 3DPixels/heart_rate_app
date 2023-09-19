@@ -1,9 +1,5 @@
-import 'dart:async';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:heart_rate_app/screens/welcome_page.dart';
 import 'package:heart_rate_app/services/database_helper.dart';
@@ -18,6 +14,7 @@ void main() async {
   await DatabaseHelper().createDatabase();
   await Permission.notification.request();
   await NotificationService().init();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   runApp(const MyApp());
 }
 

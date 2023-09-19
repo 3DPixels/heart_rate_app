@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -84,7 +86,7 @@ class _CustomTextField2State extends State<CustomTextField2> {
   Widget build(BuildContext context) {
     return Padding(
       padding: widget.padding
-          ? EdgeInsets.symmetric(vertical: 5.0)
+          ? const EdgeInsets.symmetric(vertical: 5.0)
           : EdgeInsets.zero,
       child: TextFormField(
         controller: textEditingController,

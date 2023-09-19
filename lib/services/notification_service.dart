@@ -9,6 +9,19 @@ import 'package:timezone/data/latest_all.dart' as tz;
 import '../model/alarm_model.dart';
 
 class NotificationService {
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
+  AndroidInitializationSettings initializationSettingsAndroid =
+      const AndroidInitializationSettings('app_logo');
+  final StreamController<ReceivedNotification>
+      didReceiveLocalNotificationStream =
+      StreamController<ReceivedNotification>.broadcast();
+
+  // final StreamController<String> selectNotificationStream =
+  //     StreamController<String>.broadcast();
+
+  AndroidNotificationChannel? channel;
+  bool isFlutterLocalNotificationsInitialized = false;
   final List<DarwinNotificationCategory> darwinNotificationCategories =
       <DarwinNotificationCategory>[
     DarwinNotificationCategory(
@@ -23,8 +36,6 @@ class NotificationService {
       ],
     ),
   ];
-  AndroidInitializationSettings initializationSettingsAndroid =
-      AndroidInitializationSettings('app_logo');
 
   Future init() async {
     setupFlutterNotifications();
@@ -58,52 +69,6 @@ class NotificationService {
     );
   }
 
-  AndroidNotificationChannel? channel;
-
-  bool isFlutterLocalNotificationsInitialized = false;
-
-  addNotification(List<AlarmModel> alarms) async {
-    List<PendingNotificationRequest> notifications =
-        await flutterLocalNotificationsPlugin.pendingNotificationRequests();
-    flutterLocalNotificationsPlugin.cancelAll();
-
-    for (AlarmModel alarmModel in alarms) {
-      tz.TZDateTime finalDateTime = tz.TZDateTime.fromMillisecondsSinceEpoch(
-          tz.getLocation('Asia/Riyadh'), alarmModel.time!);
-
-      int random = Random().nextInt(pow(2, 31).toInt());
-      await flutterLocalNotificationsPlugin
-          .zonedSchedule(
-              random,
-              'Medicine Reminder',
-              "It's ${alarmModel.medicine ?? 'Medicine'} time",
-              finalDateTime,
-              NotificationDetails(
-                  iOS: DarwinNotificationDetails(
-                    presentAlert: true,
-                    presentBadge: true,
-                    presentSound: true,
-                  ),
-                  android: AndroidNotificationDetails(
-                      'scheduledMedicine$random', 'Medicine Reminder',
-                      channelDescription: 'Medicine Reminder',
-                      playSound: true,
-                      enableVibration: true,
-                      // sound:  RawResourceAndroidNotificationSound('azan'),
-                      importance: Importance.max,
-                      priority: Priority.high,
-                      styleInformation: BigTextStyleInformation(''))),
-              androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
-              matchDateTimeComponents: DateTimeComponents.time,
-              payload: alarmModel.alarmId,
-              uiLocalNotificationDateInterpretation:
-                  UILocalNotificationDateInterpretation.absoluteTime)
-          .then((value) {
-        print('--------------${notifications.length}');
-      });
-    }
-  }
-
   Future<void> setupFlutterNotifications() async {
     if (isFlutterLocalNotificationsInitialized) {
       return;
@@ -133,18 +98,44 @@ class NotificationService {
     isFlutterLocalNotificationsInitialized = true;
   }
 
-  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
+  addNotification(List<AlarmModel> alarms) async {
+    flutterLocalNotificationsPlugin.cancelAll();
 
-  final StreamController<ReceivedNotification>
-      didReceiveLocalNotificationStream =
-      StreamController<ReceivedNotification>.broadcast();
+    for (AlarmModel alarmModel in alarms) {
+      tz.TZDateTime finalDateTime = tz.TZDateTime.fromMillisecondsSinceEpoch(
+          tz.getLocation('Asia/Riyadh'), alarmModel.time!);
 
-  // final StreamController<String> selectNotificationStream =
-  //     StreamController<String>.broadcast();
+      int random = Random().nextInt(pow(2, 31).toInt());
+      await flutterLocalNotificationsPlugin.zonedSchedule(
+          random,
+          'Medicine Reminder',
+          "It's ${alarmModel.medicine ?? 'Medicine'} time",
+          finalDateTime,
+          NotificationDetails(
+              iOS: const DarwinNotificationDetails(
+                presentAlert: true,
+                presentBadge: true,
+                presentSound: true,
+              ),
+              android: AndroidNotificationDetails(
+                  'scheduledMedicine$random', 'Medicine Reminder',
+                  channelDescription: 'Medicine Reminder',
+                  playSound: true,
+                  enableVibration: true,
+                  // sound:  RawResourceAndroidNotificationSound('azan'),
+                  importance: Importance.max,
+                  priority: Priority.high,
+                  styleInformation: const BigTextStyleInformation(''))),
+          androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+          matchDateTimeComponents: DateTimeComponents.time,
+          payload: alarmModel.alarmId,
+          uiLocalNotificationDateInterpretation:
+              UILocalNotificationDateInterpretation.absoluteTime);
+    }
+  }
 
   MethodChannel platform =
-      MethodChannel('dexterx.dev/flutter_local_notifications_example');
+      const MethodChannel('dexterx.dev/flutter_local_notifications_example');
   String portName = 'notification_send_port';
 
   /// A notification action which triggers a url launch event

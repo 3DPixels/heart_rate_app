@@ -36,14 +36,6 @@ class _ReminderScreenState extends State<ReminderScreen> {
     // TODO: implement initState
     super.initState();
     getUserData();
-    // Person person =
-    //     boxPersons.getAt(int.parse(CacheHelper.getString(SharedKeys.id)));
-    // print(person.times.length);
-    // if (person.times.isNotEmpty) {
-    //   list.addAll(person.times);
-    // } else {
-    //   list.add(Alarm(medicine: 'Medicine', time: DateTime.now()));
-    // }
   }
 
   @override
@@ -99,7 +91,6 @@ class _ReminderScreenState extends State<ReminderScreen> {
                                 padding: false,
                                 onChanged: (text) {
                                   list[list.indexOf(e)].medicine = text;
-                                  print(list[list.indexOf(e)].medicine);
                                   setState(() {});
                                 },
                               ),
@@ -112,7 +103,7 @@ class _ReminderScreenState extends State<ReminderScreen> {
                                   list.remove(e);
                                   setState(() {});
                                 },
-                                icon: Icon(
+                                icon: const Icon(
                                   Icons.remove,
                                   color: Colors.white,
                                 )),
@@ -175,8 +166,6 @@ class _ReminderScreenState extends State<ReminderScreen> {
     List<Map<String, dynamic>> usersData = await DatabaseHelper.database!
         .rawQuery('SELECT * FROM "Users" WHERE id=?',
             [int.parse(CacheHelper.getString(SharedKeys.id))]);
-    print(CacheHelper.getString(SharedKeys.id));
-    print('||||| ${usersData.toSet()}');
     if (usersData.isNotEmpty) {
       user = UserModel.fromJson(jsonDecode(usersData.first['userModel']));
       list = user!.alarms ?? [];
@@ -187,7 +176,7 @@ class _ReminderScreenState extends State<ReminderScreen> {
 
 class CustomTimePicker extends StatefulWidget {
   final AlarmModel? model;
-  CustomTimePicker({super.key, this.model});
+  const CustomTimePicker({super.key, this.model});
 
   @override
   State<CustomTimePicker> createState() => _CustomTimePickerState();
@@ -216,7 +205,7 @@ class _CustomTimePickerState extends State<CustomTimePicker> {
         showModalBottomSheet(
           context: context,
           builder: (BuildContext builder) {
-            return Container(
+            return SizedBox(
               height: MediaQuery.of(context).copyWith().size.height / 2,
               child: Column(
                 mainAxisSize: MainAxisSize.min,

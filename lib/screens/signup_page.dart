@@ -114,26 +114,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 setState(() {
                   // Validate returns true if the form is valid, or false otherwise.
                   if (signUpFormKey.currentState!.validate()) {
-                    int index = DateTime.now().toUtc().millisecondsSinceEpoch;
+                    int id = DateTime.now().toUtc().millisecondsSinceEpoch;
                     UserModel person = UserModel(
-                        index,
+                        id,
                         nameController!.text,
                         phoneController!.text,
                         emailController!.text,
                         passwordController!.text, [], []);
-                    DatabaseHelper.database!.insert('Users', {
-                      'id': index,
-                      'userModel': jsonEncode(person.toJson())
-                    });
+                    DatabaseHelper.database!.insert('Users',
+                        {'id': id, 'userModel': jsonEncode(person.toJson())});
                     cacheUser(
-                        index.toString(),
+                        id.toString(),
                         nameController!.text,
                         emailController!.text,
                         phoneController!.text,
                         passwordController!.text);
 
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => HomeScreen()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const HomeScreen()));
                   }
                 });
               }),

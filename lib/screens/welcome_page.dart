@@ -32,13 +32,17 @@ class WelcomeScreen extends StatelessWidget {
               ),
               30.verticalSpace,
               CustomButton(Colors.white, Colors.black, 'LOG IN', () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => LoginScreen()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const LoginScreen()));
               }),
               10.verticalSpace,
               CustomButton(Colors.black, Colors.white, 'SIGN UP', () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => SignUpScreen()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const SignUpScreen()));
               }),
             ],
           ),

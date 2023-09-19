@@ -23,8 +23,7 @@ class HomeScreen extends StatelessWidget {
                 content: const Text('Do you want to logout?'),
                 actions: <Widget>[
                   TextButton(
-                    onPressed: () =>
-                        Navigator.of(context).pop(false), //<-- SEE HERE
+                    onPressed: () => Navigator.of(context).pop(false),
                     child: const Text('No'),
                   ),
                   TextButton(
@@ -32,7 +31,7 @@ class HomeScreen extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => WelcomeScreen()));
+                              builder: (context) => const WelcomeScreen()));
                     },
                     child: const Text('Yes'),
                   ),
@@ -53,7 +52,7 @@ class HomeScreen extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => EditProfileScreen()));
+                          builder: (context) => const EditProfileScreen()));
                 },
                 child: Container(
                   margin: const EdgeInsets.symmetric(horizontal: 15),

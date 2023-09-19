@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -157,8 +159,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     List<Map<String, dynamic>> usersData = await DatabaseHelper.database!
         .rawQuery('SELECT * FROM "Users" WHERE id=?',
             [int.parse(CacheHelper.getString(SharedKeys.id))]);
-    print(CacheHelper.getString(SharedKeys.id));
-    print('||||| ${usersData.toSet()}');
     if (usersData.isNotEmpty) {
       user = UserModel.fromJson(jsonDecode(usersData.first['userModel']));
     }
