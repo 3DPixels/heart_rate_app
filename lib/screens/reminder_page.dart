@@ -82,25 +82,26 @@ class _ReminderScreenState extends State<ReminderScreen> {
                       style: kSubtitleStyle,
                     ),
                     30.verticalSpace,
-                    ...list.map((e) => Row(
+                    ...list.map((item) => Row(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Expanded(
                               child: CustomTextField2(
-                                hint: e.medicine ?? 'Medicine',
+                                hint: item.medicine ?? 'Medicine',
                                 padding: false,
                                 onChanged: (text) {
-                                  list[list.indexOf(e)].medicine = text;
+                                  list[list.indexOf(item)].medicine = text;
                                   setState(() {});
                                 },
                               ),
                             ),
                             30.horizontalSpace,
                             SizedBox(
-                                width: 100, child: CustomTimePicker(model: e)),
+                                width: 100,
+                                child: CustomTimePicker(model: item)),
                             IconButton(
                                 onPressed: () {
-                                  list.remove(e);
+                                  list.remove(item);
                                   setState(() {});
                                 },
                                 icon: const Icon(

@@ -14,6 +14,7 @@ class WelcomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomContainer(
         child: WillPopScope(
+      // prevents screen from going back
       onWillPop: () async {
         return false;
       },

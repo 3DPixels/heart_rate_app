@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           scaffoldBackgroundColor: Colors.transparent,
         ),
-        home: const WelcomeScreen(),
+        home: const WelcomeScreen(), // First screen when app launches
       ),
     );
   }
