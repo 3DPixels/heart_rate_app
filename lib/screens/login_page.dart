@@ -44,6 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
     usersList = usersData
         .map((e) => UserModel.fromJson(jsonDecode(e['userModel'])))
         .toList();
+    print(usersList.map((e) => e.toJson()).toSet());
   }
 
   @override

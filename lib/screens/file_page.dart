@@ -102,6 +102,7 @@ class _FileScreenState extends State<FileScreen> {
                         hint: 'Name',
                         padding: true,
                         controller: nameController,
+                        readOnly: true,
                       ),
                       CustomTextField2(
                         hint: 'Week One',
@@ -142,6 +143,7 @@ class _FileScreenState extends State<FileScreen> {
                           'id': CacheHelper.getString(SharedKeys.id),
                           'userModel': jsonEncode(user!.toJson())
                         });
+                        Navigator.pop(context);
                       }),
                     ],
                   ),

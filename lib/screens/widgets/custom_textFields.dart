@@ -55,6 +55,7 @@ class CustomTextField extends StatelessWidget {
 class CustomTextField2 extends StatefulWidget {
   final String hint;
   final bool padding;
+  final bool? readOnly;
   final Function(String)? onChanged;
   final TextEditingController? controller;
   const CustomTextField2({
@@ -63,6 +64,7 @@ class CustomTextField2 extends StatefulWidget {
     required this.padding,
     this.controller,
     this.onChanged,
+    this.readOnly,
   });
 
   @override
@@ -89,6 +91,7 @@ class _CustomTextField2State extends State<CustomTextField2> {
           ? const EdgeInsets.symmetric(vertical: 5.0)
           : EdgeInsets.zero,
       child: TextFormField(
+        readOnly: widget.readOnly ?? false,
         controller: textEditingController,
         onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
         style: const TextStyle(
